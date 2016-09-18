@@ -19,11 +19,36 @@
 
 namespace awful {
 
+//////////////////////////////////////////////////////////////////////////////
+// What's in this header
+//////////////////////////////////////////////////////////////////////////////
 // A (literal) type that can only be default constructed and moved around
 // through move-construction and move-assignment.
 //
 // It is useful for making sure that an algorithm does not try to
 // copy objects around.
+struct noncopyable;
+
+// A type that tracks its current state (constructed, moved-from, destroyed, etc.)
+// and asserts that it's not used in an invalid state.
+//
+// It can be used to check for double-moves, double-deletes and other similar
+// lifetime issues.
+class tracked;
+
+// A (literal) type that can be default, move and copy constructed, but that
+// must not be constructed from anything else. If one tries to construct an
+// object of this type with anything, a compilation error is triggered.
+//
+// This is done by defining a catch-all implicit constructor that triggers
+// a `static_assert` whenever instantiated. This can be used to test things
+// like making sure that `std::tuple`'s copy constructor only calls the
+// copy constructor of its elements, and nothing else.
+struct trapconstructible;
+
+//////////////////////////////////////////////////////////////////////////////
+// Implementation
+//////////////////////////////////////////////////////////////////////////////
 struct noncopyable {
   constexpr noncopyable() = default;
   constexpr noncopyable(noncopyable const&) = delete;
@@ -33,11 +58,6 @@ struct noncopyable {
   constexpr noncopyable& operator=(noncopyable &&) = default;
 };
 
-// A type that tracks its current state (constructed, moved-from, destroyed, etc.)
-// and asserts that it's not used in an invalid state.
-//
-// It can be used to check for double-moves, double-deletes and other similar
-// lifetime issues.
 class tracked {
   enum class State { CONSTRUCTED, MOVED_FROM, DESTROYED };
   int value;
@@ -120,6 +140,24 @@ public:
       assert(false && "never reached");
     }
     return os;
+  }
+};
+
+namespace detail {
+  template <typename ...>
+  struct always_false { static constexpr bool value = false; };
+}
+
+struct trapconstructible {
+  constexpr trapconstructible() = default;
+  constexpr trapconstructible(trapconstructible const&) = default;
+  constexpr trapconstructible(trapconstructible&) = default;
+  constexpr trapconstructible(trapconstructible&&) = default;
+
+  template <typename ...X>
+  constexpr trapconstructible(X&&...) {
+    static_assert(detail::always_false<X...>::value,
+      "this constructor must not be instantiated");
   }
 };
 

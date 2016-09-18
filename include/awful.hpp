@@ -46,6 +46,14 @@ class tracked;
 // copy constructor of its elements, and nothing else.
 struct trapconstructible;
 
+// A (literal) type overloading the comma operator in a nasty way. Instantiating
+// the comma operator of this type causes a compilation error.
+//
+// This can be used to test that generic algorithms, especially in a
+// metaprogramming setting, guard their uses of the comma operator with
+// `(void)expr1, expr2`.
+struct trapcomma;
+
 //////////////////////////////////////////////////////////////////////////////
 // Implementation
 //////////////////////////////////////////////////////////////////////////////
@@ -158,6 +166,20 @@ struct trapconstructible {
   constexpr trapconstructible(X&&...) {
     static_assert(detail::always_false<X...>::value,
       "this constructor must not be instantiated");
+  }
+};
+
+struct trapcomma {
+  template <typename T>
+  friend constexpr void operator,(trapcomma const&, T&&) {
+    static_assert(detail::always_false<T>::value,
+      "trapcomma::operator, must never be instantiated");
+  }
+
+  template <typename T>
+  friend constexpr void operator,(T&&, trapcomma const&) {
+    static_assert(detail::always_false<T>::value,
+      "trapcomma::operator, must never be instantiated");
   }
 };
 

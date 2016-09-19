@@ -1,6 +1,6 @@
-// Sole header file implementing the `awful` library of archetypes for testing
-// generic code. For documentation, questions, bug reports and feature requests,
-// see https://github.com/ldionne/awful.
+// This header is part of the libawful project, a collection of archetypes for
+// testing generic C++ libraries. For documentation, questions, bug reports and
+// feature requests, see https://github.com/ldionne/awful.
 //
 // Copyright Louis Dionne 2016
 // Distributed under the Boost Software License, Version 1.0.

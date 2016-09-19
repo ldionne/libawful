@@ -34,7 +34,9 @@ matrix:
 
   include:
     # Clang 3.5
-    - env: LLVM_VERSION=3.5.2
+    - os: linux
+      env: LLVM_VERSION=3.5.2
+      compiler: clang
 
     # Clang 3.6
     - os: linux
@@ -55,10 +57,6 @@ matrix:
     - os: linux
       env: COMPILER=g++-6
       compiler: gcc
-
-    # Xcode 6.4
-    - os: osx
-      osx_image: xcode6.4
 
     # Xcode 7.3
     - os: osx
@@ -115,7 +113,7 @@ install:
         (cd ${LLVM_DIR}/build/projects/libcxxabi && make install -j2)
       fi
 
-      export CXXFLAGS="-nostdinc++ -isystem ${LLVM_DIR}/install/include/c++/v1"
+      export CXXFLAGS="-isystem ${LLVM_DIR}/install/include/c++/v1"
       export LDFLAGS="-L ${LLVM_DIR}/install/lib -l c++ -l c++abi"
       export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${LLVM_DIR}/install/lib"
       export PATH="${LLVM_DIR}/clang/bin:${PATH}"

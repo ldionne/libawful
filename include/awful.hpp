@@ -43,7 +43,10 @@ class tracked;
 // This is done by defining a catch-all implicit constructor that triggers
 // a `static_assert` whenever instantiated. This can be used to test things
 // like making sure that `std::tuple`'s copy constructor only calls the
-// copy constructor of its elements, and nothing else.
+// copy constructor of its elements, and nothing else. In particular, one
+// corner case that may arise is that the copied-from element is not const,
+// and so the catch-all constructor of `trapconstructible` will be considered
+// a better match than its copy-constructor, which takes a `const&`.
 struct trapconstructible;
 
 // A (literal) type overloading the comma operator in a nasty way. Instantiating
@@ -157,9 +160,8 @@ namespace detail {
 }
 
 struct trapconstructible {
-  constexpr trapconstructible() = default;
+  constexpr trapconstructible() { }
   constexpr trapconstructible(trapconstructible const&) = default;
-  constexpr trapconstructible(trapconstructible&) = default;
   constexpr trapconstructible(trapconstructible&&) = default;
 
   template <typename ...X>

@@ -8,9 +8,14 @@
 
 
 int main() {
-  awful::trapconstructible a;
-  awful::trapconstructible b(a);
-  awful::trapconstructible c{a};
-  awful::trapconstructible d = a;
-  awful::trapconstructible e = std::move(a);
+  awful::trapconstructible const a;
+  awful::trapconstructible b;
+
+  awful::trapconstructible copy1(a);
+  awful::trapconstructible copy2{a};
+  awful::trapconstructible copy3 = a;
+
+  awful::trapconstructible move1(std::move(b));
+  awful::trapconstructible move2{std::move(b)};
+  awful::trapconstructible move3 = std::move(b);
 }

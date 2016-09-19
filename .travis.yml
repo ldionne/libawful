@@ -15,6 +15,7 @@ env:
 addons:
   apt:
     packages:
+      - g++-5
       - g++-6
     sources:
       - ubuntu-toolchain-r-test
@@ -52,6 +53,11 @@ matrix:
     - os: linux
       env: LLVM_VERSION=3.8.0
       compiler: clang
+
+    # GCC 5
+    - os: linux
+      env: COMPILER=g++-5
+      compiler: gcc
 
     # GCC 6
     - os: linux

@@ -2,7 +2,7 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 project(awful LANGUAGES CXX)
 

@@ -1,4 +1,4 @@
-# libawful
+# libawful <a target="_blank" href="https://travis-ci.org/ldionne/libawful">![Travis status][badge.Travis]</a>
 
 > A collection of awful archetypes for testing generic code
 
@@ -39,3 +39,7 @@ int main() {
 ## Compiler requirements
 This is a C++14 library, and no effort whatsoever will be made to accommodate
 nonconforming compilers.
+
+
+<!-- Links -->
+[badge.Travis]: https://travis-ci.org/ldionne/libawful.svg?branch=master

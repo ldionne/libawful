@@ -2,7 +2,7 @@
 // testing generic C++ libraries. For documentation, questions, bug reports and
 // feature requests, see https://github.com/ldionne/awful.
 //
-// Copyright Louis Dionne 2016
+// Copyright Louis Dionne 2017
 // Distributed under the Boost Software License, Version 1.0.
 // See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt
 

@@ -7,8 +7,13 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 project(awful LANGUAGES CXX)
 
 add_library(awful INTERFACE)
-target_include_directories(awful INTERFACE include)
+target_include_directories(awful INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+                                           $<INSTALL_INTERFACE:include>)
 target_compile_features(awful INTERFACE cxx_std_14)
+
+install(TARGETS awful EXPORT AwfulConfig)
+install(EXPORT AwfulConfig          DESTINATION lib/cmake/awful)
+install(FILES  include/awful.hpp    DESTINATION include)
 
 enable_testing()
 include(compile_fail)

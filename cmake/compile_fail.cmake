@@ -7,10 +7,10 @@
 # file fails to compile.
 
 function(compile_fail testname sourcefile)
-  add_executable(${testname} ${sourcefile})
+  add_executable(${testname} "${sourcefile}")
   set_target_properties(${testname} PROPERTIES EXCLUDE_FROM_ALL true
                                                EXCLUDE_FROM_DEFAULT_BUILD true)
   add_test(NAME ${testname}
-    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target ${testname} --config $<CONFIGURATION>)
+    COMMAND ${CMAKE_COMMAND} --build "${CMAKE_BINARY_DIR}" --target ${testname} --config $<CONFIGURATION>)
   set_tests_properties(${testname} PROPERTIES WILL_FAIL true)
 endfunction()
